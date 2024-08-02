@@ -1,0 +1,15 @@
+.meumbar>a{
+	font-size: 55px;
+	color: black;
+	text-decoration: none;
+}
+.meumbox{
+	border-radius: 5px;
+	top: 0px;
+}
+.meumbar{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	column-gap: 50px;
+}

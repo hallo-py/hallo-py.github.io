@@ -1,0 +1,11 @@
+#news{
+	display: grid;
+	place-items: center;
+}
+.newblock{
+	width: auto;
+	border: black 3px solid
+}
+#newblock ol,#newblock ul{
+	text-align: left;
+}

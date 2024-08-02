@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<script src="/marked.js"></script>
+	<script src="/findarg.js"></script>
+	<link rel="stylesheet" type="text/css" href="/meum.css">
+	<style>
+		.noneHTMLa{
+    		color: black;
+    		text-decoration: none;
+		}
+	</style>
+</head>
+<body>
+    <div style="position: absolute; top:20px;right: 0px;width: auto">
+        <form action="find.html" method="get" name="find">
+                <input type="text" name="search" placeholder="查找动态..." style="width: 80%;">
+                <button type="submit" style="width: 20%">查找</button>
+        </form>
+    </div>
+	<div class="meumbox" id="meumbox">
+		<div class="meumbar">
+			<a href="index.html">你好</a>
+			<a href="https://github.com/hallo-py">关于我</a>
+			<a href="/news">动态</a>
+		</div>
+	</div>
+	<div style="position: absolute;top: 0px;left: 0px"><a class="noneHTMLa" href="javascript:history.back();" style="font-size: 25px;">上一页</a></div>
+	<h1 class="title"></h1>
+	<p class="date"></p>
+	<div class="news" style="border-width: 2px;border-style: inset;border-color: initial;border-image: initial;"></div>
+	<script>
+	function error(e){
+		document.querySelector("title").textContent="Error";
+		document.querySelector(".title").textContent=e;
+	}
+	window.onload = function(){
+		let str=window.location.search;
+		let findstr="page";
+		var page;
+		let find = findarg(str,findstr)
+		if (find){
+			page=parseInt(find,10);
+			fetch("/news/all.json")
+				.then(function(response){
+					if (!response.ok){
+						throw Error("Cannot read the file");
+					}
+					return response.json()
+				}).then(function(jsonData){
+//					jsonData=Array;
+					if (page>=jsonData.length){
+						error("没有此动态");
+						throw Error("no this file")
+					}
+					let data=jsonData[page]
+					document.querySelector("title").textContent=data["title"]
+					document.querySelector(".title").textContent=data["title"]
+					// get html
+					if (data["type"] === "md") {  
+						fetch("/news/"+data["url"])  
+							.then(response => {  
+								if (!response.ok) {
+									throw new Error('Markdown file response was not ok');  
+								}  
+								return response.text();  
+							})  
+							.then(markdown => {  
+								let markedHtml = marked.parse(markdown);
+								document.querySelector(".news").innerHTML=markedHtml;
+							});  
+					} else if (data["type"] === "html") {  
+						document.querySelector(".news").innerHTML=`<iframe src="/news/${data["url"]}" style="position: absolute;left: 0px;right: 0px;width: 100%;"></iframe>`;
+					}
+					document.querySelector(".date").textContent=data["date"];
+					
+				}).catch(function(e){
+					throw Error(e);
+				})
+//				})
+			// fetch;
+		} else {
+			error("没有输入正确的指令");
+		}
+		
+	}
+	</script>
+</body>
+</html>

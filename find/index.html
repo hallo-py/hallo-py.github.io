@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset=utf-8>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Python虫的博客</title>
+	<style>
+		.noneHTMLa{
+    		color: black;
+    		text-decoration: none;
+		}
+	</style>
+	<link rel="stylesheet" type="text/css" href="/meum.css">
+	<script src="/findarg.js"></script>
+</head>
+<!--<body style="background-image: url(background.jpg);background-attachment: fixed;background-size: cover;">-->
+<body>
+	<div class="meumbox" id="meumbox">
+		<div class="meumbar">
+			<a href="/">你好</a>
+			<a href="https://github.com/hallo-py">关于我</a>
+			<a href="/news">动态</a>
+		</div>
+	</div>
+	<div class="main" id="main" style="text-align: center;position: absolute;left: 0;right: 0;">
+		<div style="display: flex;flex-direction: column">
+            <form action="/find" method="get" name="find">
+                <input type="text" name="search" placeholder="查找动态..." style="width: 80%;">
+                <button type="submit" style="width: 10%">查找</button>
+            </form>
+            <div class="finding" style="display: flex;flex-direction: column;align-content: center;align-items: center;">
+<!--                在此插入-->
+            </div>
+            <script>
+            fetch("/news/all.json")
+				.then(function(response){
+					if (!response.ok){
+						throw Error("Cannot read the file");
+					}
+					return response.json()
+				}).then(function(jsonData){
+                    let searchstr="search";
+                    let search=findarg(window.location.search,searchstr);
+//                    console.log(search,search!=null);
+                    if (search!=null){
+                        search=decodeURIComponent(search);
+//                        console.log(search)
+                        document.forms.find.search.value=search;
+                        let find = jsonData.filter(function(obj){
+                            return obj.title && obj.title.includes(search)
+                        });
+//                        console.log(find);
+                        if (find.length===0){
+                            document.querySelector(".finding").innerHTML="<h1>没有找到你要的动态555</h1>";
+                        } else if (find){
+                            find.forEach((e) => {
+                                document.querySelector(".finding").insertAdjacentHTML("afterBegin",`<h2 class="title"><a href="/seece?page=${jsonData.indexOf(e)}" title="查看大窗口">${e["title"]}</a></h2><p style="margin: 0px;">data:${e["date"]}</p>`)
+//                                console.log(e);
+                            })
+                        }
+                    }
+                })
+            // fetch
+            </script>
+		</div>
+	</div>
+	<div class="end" style="position: absolute;display: flex;flex-direction: row;bottom: 0px;left: 0px;right: 0px;justify-content: center;text-align: center;column-gap: 10px">
+		<span>我的邮箱:<a href="mailto:pythonchong@outlook.com">pythonchong@outlook.com</a></span>
+		<span>我的GitHub:<a href="https://github.com/hallo-py">https://github.com/hallo-py</a></span>
+		<span>我的CSDN:<a href="https://blog.csdn.net/RedStone114514">https://blog.csdn.net/RedStone114514</a></span>
+	</div>
+</body>
+</html>
