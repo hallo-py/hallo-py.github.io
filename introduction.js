@@ -2,7 +2,7 @@ function sleep(ms){
 	return new Promise(resolve=>setTimeout(resolve,ms))
 }
 
-var myIntroductionList=["你好！","我是Python虫","这里是我的个人博客","我是一个热爱编程的快升中的小学生"]
+var myIntroductionList=["你好！","我是Python虫","这里是我的个人博客","我初中啦!","我是一个热爱编程的中学生"]
 var tag=document.querySelector("span#text")
 var cursor=document.querySelector("span#cursor")
 
