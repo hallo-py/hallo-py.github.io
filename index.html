@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+    <title>此站点已废弃，3秒后打开现用页面</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <h1>此站点已废弃，3秒后打开现用页面</h1>
+    <p>3秒后将打开现用页面</p>
+    <h1>假如您看见此页面，证明我有数据未迁移，请发送邮件至我的邮箱，告诉我您是从哪个平台过来的，我可以及时改正</h1>
+    <p>Github已改名：<a href="https://github.com/pytac">pytac</a></p>
+    <p>现用页面：<a href="https://pytac.github.io/">pytac.github.io</a></p>
+    <p>邮箱：<a href="mailto:pytac@outlook.com">pytac@outlook.com</a></p>
+
+    <script>
+        setTimeout(() => {
+            window.open("https://pytac.github.io/", "_blank");
+            document.body.insertAdjacentHTML("beforeend", "<h2>已打开现用页面，假如您打不开可以直接点击链接访问</h2>");
+        }, 3000);
+    </script>
+</body>
+</html>
